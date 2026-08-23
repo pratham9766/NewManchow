@@ -1,0 +1,23 @@
+{
+  "name": "new-manchow",
+  "version": "1.0.0",
+  "description": "New Manchow - Premium Indo-Chinese Dining Website",
+  "private": true,
+  "scripts": {
+    "dev": "serve .",
+    "start": "serve .",
+    "build": "echo \"Static site ready for deployment\"",
+    "preview": "serve ."
+  },
+  "keywords": [
+    "restaurant",
+    "indo-chinese",
+    "static-website",
+    "vercel"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "serve": "^14.2.4"
+  }
+}

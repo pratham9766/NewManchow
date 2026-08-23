@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="New Manchow serves premium Indo-Chinese food with wok-fired mains, signature starters, noodles, soups, and fast online ordering." />
+  <title>New Manchow | Wok-Fired Indo-Chinese Dining</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet" />
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            ink: "#0c0806",
+            ember: "#E84C0E",
+            flame: "#FC5A1F",
+            smoke: "#16100d",
+            char: "#1e1511",
+            cream: "#F9DCD4",
+            muted: "#E4BEB3",
+            gold: "#FFB77B"
+          },
+          fontFamily: {
+            display: ["Playfair Display", "serif"],
+            body: ["Manrope", "sans-serif"]
+          },
+          maxWidth: {
+            site: "1440px"
+          }
+        }
+      }
+    };
+  </script>
+  <style>
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: #0c0806;
+      color: #f9dcd4;
+      font-family: Manrope, sans-serif;
+    }
+
+    body.modal-open {
+      overflow: hidden;
+    }
+
+    .material-symbols-outlined {
+      font-variation-settings: "FILL" 0, "wght" 500, "GRAD" 0, "opsz" 24;
+      line-height: 1;
+    }
+
+    .display-lock {
+      letter-spacing: -0.01em;
+    }
+
+    .hero-photo {
+      background-image:
+        linear-gradient(180deg, rgba(9, 9, 9, 0.2) 0%, rgba(9, 9, 9, 0.4) 100%),
+        url("./assets/images/hero_dish.png");
+    }
+
+    .story-photo {
+      background-image: url("./assets/images/storefront.png");
+    }
+
+    .dish-lollipop {
+      background-image: url("./assets/images/hero_dish.png");
+    }
+
+    .dish-manchurian {
+      background-image: url("./assets/images/flatlay_spread.png");
+    }
+
+    .dish-noodles {
+      background-image: url("./assets/images/flatlay_spread.png");
+    }
+
+    .gallery-one {
+      background-image: url("./assets/images/hero_dish.png");
+    }
+
+    .gallery-two {
+      background-image: url("./assets/images/flatlay_spread.png");
+    }
+
+    .gallery-three {
+      background-image: url("./assets/images/storefront.png");
+    }
+
+    .photo {
+      background-position: center;
+      background-size: cover;
+      background-color: #181818;
+      transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .group:hover .photo {
+      transform: scale(1.06);
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .reveal.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .delay-100 { transition-delay: 100ms; }
+    .delay-200 { transition-delay: 200ms; }
+    .delay-300 { transition-delay: 300ms; }
+
+    .modal {
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .modal.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal-panel {
+      transform: translateY(24px) scale(0.96);
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .modal.active .modal-panel {
+      transform: translateY(0) scale(1);
+    }
+
+    .cart-drawer {
+      transform: translateX(110%);
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .cart-drawer.active {
+      transform: translateX(0);
+    }
+
+    .menu-fade {
+      opacity: 0;
+      transform: translateY(12px);
+      transition: opacity 0.35s ease, transform 0.35s ease;
+    }
+
+    .menu-fade.in {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @keyframes pulse-glow {
+      0%, 100% { opacity: 0.4; transform: scale(1); }
+      50% { opacity: 0.7; transform: scale(1.05); }
+    }
+
+    .glow-pulse {
+      animation: pulse-glow 6s infinite ease-in-out;
+    }
+
+    @media (max-width: 767px) {
+      .hero-photo {
+        min-height: 380px;
+      }
+    }
+  </style>
+</head>
+<body class="overflow-x-hidden antialiased selection:bg-ember selection:text-white">
+  <header class="sticky top-0 z-40 border-b border-white/10 bg-ink/90 backdrop-blur-xl">
+    <div class="mx-auto flex max-w-site items-center justify-between px-5 py-5 md:px-16">
+      <a href="#home" class="font-display text-3xl font-bold text-cream">New Manchow</a>
+      <nav class="hidden items-center gap-10 text-sm font-bold uppercase tracking-[0.14em] text-muted md:flex" aria-label="Primary navigation">
+        <a class="nav-link border-b-2 border-flame pb-1 text-gold" href="#home">Home</a>
+        <a class="nav-link pb-1 transition hover:text-cream" href="#menu">Menu</a>
+        <a class="nav-link pb-1 transition hover:text-cream" href="#story">Story</a>
+        <a class="nav-link pb-1 transition hover:text-cream" href="#gallery">Gallery</a>
+        <a class="nav-link pb-1 transition hover:text-cream" href="#contact">Contact</a>
+      </nav>
+      <button class="open-order hidden items-center gap-2 rounded bg-ember px-8 py-4 text-sm font-extrabold uppercase tracking-[0.12em] text-white transition hover:bg-flame md:flex">
+        Order Now
+        <span class="material-symbols-outlined rotate-[-45deg] text-xl">arrow_forward</span>
+      </button>
+      <button class="md:hidden" id="mobileMenuButton" aria-label="Open menu" aria-expanded="false">
+        <span class="material-symbols-outlined text-3xl">menu</span>
+      </button>
+    </div>
+    <nav id="mobileMenu" class="hidden border-t border-white/10 px-5 pb-5 text-sm font-bold uppercase tracking-[0.14em] text-muted md:hidden" aria-label="Mobile navigation">
+      <a class="block py-3 text-gold" href="#home">Home</a>
+      <a class="block py-3" href="#menu">Menu</a>
+      <a class="block py-3" href="#story">Story</a>
+      <a class="block py-3" href="#gallery">Gallery</a>
+      <a class="block py-3" href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <main class="relative overflow-hidden">
+    <!-- Ambient Background Glows -->
+    <div class="absolute top-10 left-1/4 w-[500px] h-[500px] bg-flame/10 rounded-full blur-[120px] pointer-events-none glow-pulse"></div>
+    <div class="absolute top-[35%] right-10 w-[600px] h-[600px] bg-ember/10 rounded-full blur-[140px] pointer-events-none glow-pulse"></div>
+
+    <!-- Hero Section -->
+    <section id="home" class="reveal mx-auto grid max-w-site gap-12 px-6 py-16 lg:px-16 lg:py-24 md:grid-cols-12 items-center">
+      <div class="z-10 flex flex-col justify-center md:col-span-6 lg:col-span-6">
+        <div class="mb-6 inline-flex items-center gap-2 rounded-full border border-flame/30 bg-flame/10 px-4 py-1.5 backdrop-blur-md w-max">
+          <span class="h-2 w-2 rounded-full bg-flame animate-ping"></span>
+          <span class="text-xs font-extrabold uppercase tracking-[0.18em] text-gold">Authentic Indo-Chinese Cuisine</span>
+        </div>
+        <h1 class="display-lock font-display text-[3.8rem] font-bold leading-[1.02] text-cream sm:text-[5rem] lg:text-[5.6rem]">
+          Taste the <span class="text-flame">Fire</span> of the Wok
+        </h1>
+        <p class="mt-7 max-w-xl text-lg leading-8 text-muted">
+          Wok-tossed noodles, smoky sauces, crisp starters, and family-style mains prepared with the heat, speed, and generosity that New Manchow is known for.
+        </p>
+        <div class="mt-9 flex flex-col gap-4 sm:flex-row">
+          <button class="open-order group flex items-center justify-center gap-3 rounded-full bg-ember px-9 py-5 text-sm font-extrabold uppercase tracking-[0.12em] text-white shadow-lg transition-all duration-300 hover:bg-flame hover:shadow-[0_0_30px_rgba(252,90,31,0.4)]">
+            Order Your Meal
+            <span class="material-symbols-outlined rotate-[-45deg] transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1">arrow_forward</span>
+          </button>
+          <a href="#menu" class="flex items-center justify-center rounded-full border border-white/20 px-9 py-5 text-sm font-extrabold uppercase tracking-[0.12em] text-white transition-all duration-300 hover:bg-white/10 hover:border-white/40">Explore Menu</a>
+        </div>
+        <dl class="mt-10 grid grid-cols-3 gap-4 border-t border-white/10 pt-8">
+          <div class="border-r border-white/10 pr-4">
+            <dt class="flex items-center gap-2 text-sm text-gold"><span class="material-symbols-outlined text-base">star</span> Rating</dt>
+            <dd class="mt-2 text-2xl font-extrabold text-cream">4.8 <span class="text-xs font-normal text-muted">/ 5.0</span></dd>
+          </div>
+          <div class="border-r border-white/10 pr-4">
+            <dt class="flex items-center gap-2 text-sm text-gold"><span class="material-symbols-outlined text-base">schedule</span> Hours</dt>
+            <dd class="mt-2 text-base font-bold text-cream">11 AM - 11 PM</dd>
+          </div>
+          <div>
+            <dt class="flex items-center gap-2 text-sm text-gold"><span class="material-symbols-outlined text-base">local_shipping</span> Delivery</dt>
+            <dd class="mt-2 text-base font-bold text-cream">30-45 min</dd>
+          </div>
+        </dl>
+      </div>
+      <div class="relative md:col-span-6 lg:col-span-6 group w-full">
+        <div class="absolute -inset-4 bg-flame/20 rounded-3xl blur-2xl -z-10 transition-opacity duration-500 group-hover:opacity-100 opacity-70"></div>
+        <div class="photo hero-photo w-full aspect-square sm:aspect-[4/3] md:aspect-[4/3.5] lg:aspect-square max-w-[640px] mx-auto rounded-3xl border border-white/15 shadow-2xl overflow-hidden"></div>
+        <div class="absolute bottom-6 left-6 hidden rounded-2xl bg-char/90 p-5 shadow-2xl ring-1 ring-white/15 backdrop-blur-md lg:block transition-transform duration-300 group-hover:scale-105">
+          <div class="flex items-center gap-4">
+            <div class="rounded-xl bg-flame/20 p-3 text-gold"><span class="material-symbols-outlined text-3xl">stars</span></div>
+            <div>
+              <span class="text-[10px] font-extrabold uppercase tracking-[0.18em] text-gold bg-flame/20 px-2 py-0.5 rounded-full">Chef's Favourite</span>
+              <p class="mt-1.5 font-display text-xl font-bold text-cream">Crispy Chilli Special</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Signature Dishes -->
+    <section class="reveal border-y border-white/5 bg-smoke/80 backdrop-blur-sm px-5 py-24 md:px-16" aria-labelledby="signature-heading">
+      <div class="mx-auto max-w-site">
+        <div class="mb-14 flex flex-col justify-between gap-6 md:flex-row md:items-end">
+          <div>
+            <p class="mb-3 text-sm font-extrabold uppercase tracking-[0.18em] text-gold">Signature Dishes</p>
+            <h2 id="signature-heading" class="font-display text-5xl font-bold leading-tight text-cream md:text-6xl">Flavours Worth Coming Back For</h2>
+          </div>
+          <a href="#menu" class="group flex items-center gap-2 border-b border-gold/40 pb-1 text-sm font-extrabold uppercase tracking-[0.14em] text-gold transition-colors hover:text-white hover:border-white">
+            View Full Menu
+            <span class="material-symbols-outlined text-base transition-transform duration-300 group-hover:translate-x-1">east</span>
+          </a>
+        </div>
+        <div class="grid gap-8 md:grid-cols-3">
+          <article class="dish-card group overflow-hidden rounded-2xl border border-white/10 bg-char shadow-xl transition-all duration-500 hover:-translate-y-2 hover:border-flame/40 hover:shadow-[0_20px_50px_rgba(252,90,31,0.15)] delay-100" data-name="Lollipop Chicken" data-price="18">
+            <div class="overflow-hidden aspect-[4/3] relative">
+              <div class="photo dish-lollipop h-full w-full"></div>
+              <span class="absolute top-4 left-4 rounded-full bg-flame/90 px-3.5 py-1 text-[10px] font-extrabold uppercase tracking-[0.16em] text-white shadow-md backdrop-blur">Chef's Special</span>
+            </div>
+            <div class="p-7">
+              <div class="mb-3 flex items-start justify-between gap-4">
+                <h3 class="font-display text-2xl font-bold text-cream transition-colors group-hover:text-gold">Schezwan Chicken</h3>
+                <p class="font-display text-2xl font-bold text-gold">$18</p>
+              </div>
+              <p class="min-h-20 leading-7 text-muted text-sm">Pan-crisped tender chicken wings tossed in rich, fiery Schezwan peppercorn sauce.</p>
+              <button class="add-to-cart mt-6 flex w-full items-center justify-center gap-2 rounded-full border border-white/20 bg-white/5 py-3 text-xs font-extrabold uppercase tracking-[0.14em] text-gold transition-all duration-300 group-hover:bg-ember group-hover:text-white group-hover:border-ember">
+                Add to Order <span class="material-symbols-outlined text-base">add_shopping_cart</span>
+              </button>
+            </div>
+          </article>
+          <article class="dish-card group overflow-hidden rounded-2xl border border-white/10 bg-char shadow-xl transition-all duration-500 hover:-translate-y-2 hover:border-flame/40 hover:shadow-[0_20px_50px_rgba(252,90,31,0.15)] delay-200" data-name="Veg Manchurian Dry" data-price="14">
+            <div class="overflow-hidden aspect-[4/3] relative">
+              <div class="photo dish-manchurian h-full w-full"></div>
+              <span class="absolute top-4 left-4 rounded-full bg-ember/90 px-3.5 py-1 text-[10px] font-extrabold uppercase tracking-[0.16em] text-white shadow-md backdrop-blur">Popular Choice</span>
+            </div>
+            <div class="p-7">
+              <div class="mb-3 flex items-start justify-between gap-4">
+                <h3 class="font-display text-2xl font-bold text-cream transition-colors group-hover:text-gold">Hakka Noodles</h3>
+                <p class="font-display text-2xl font-bold text-gold">$14</p>
+              </div>
+              <p class="min-h-20 leading-7 text-muted text-sm">Classic wok-tossed noodles with julienned vegetables and aromatic savory spices.</p>
+              <button class="add-to-cart mt-6 flex w-full items-center justify-center gap-2 rounded-full border border-white/20 bg-white/5 py-3 text-xs font-extrabold uppercase tracking-[0.14em] text-gold transition-all duration-300 group-hover:bg-ember group-hover:text-white group-hover:border-ember">
+                Add to Order <span class="material-symbols-outlined text-base">add_shopping_cart</span>
+              </button>
+            </div>
+          </article>
+          <article class="dish-card group overflow-hidden rounded-2xl border border-white/10 bg-char shadow-xl transition-all duration-500 hover:-translate-y-2 hover:border-flame/40 hover:shadow-[0_20px_50px_rgba(252,90,31,0.15)] delay-300" data-name="Burnt Garlic Noodles" data-price="16">
+            <div class="overflow-hidden aspect-[4/3] relative">
+              <div class="photo dish-noodles h-full w-full"></div>
+              <span class="absolute top-4 left-4 rounded-full bg-gold/90 px-3.5 py-1 text-[10px] font-extrabold uppercase tracking-[0.16em] text-ink shadow-md backdrop-blur">Wok Special</span>
+            </div>
+            <div class="p-7">
+              <div class="mb-3 flex items-start justify-between gap-4">
+                <h3 class="font-display text-2xl font-bold text-cream transition-colors group-hover:text-gold">Special Wok Feast</h3>
+                <p class="font-display text-2xl font-bold text-gold">$22</p>
+              </div>
+              <p class="min-h-20 leading-7 text-muted text-sm">Delicious combination dish feast featuring starters, rice, and signature sauces.</p>
+              <button class="add-to-cart mt-6 flex w-full items-center justify-center gap-2 rounded-full border border-white/20 bg-white/5 py-3 text-xs font-extrabold uppercase tracking-[0.14em] text-gold transition-all duration-300 group-hover:bg-ember group-hover:text-white group-hover:border-ember">
+                Add to Order <span class="material-symbols-outlined text-base">add_shopping_cart</span>
+              </button>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Menu Section -->
+    <section id="menu" class="reveal mx-auto max-w-site px-5 py-24 md:px-16" aria-labelledby="menu-heading">
+      <div class="mb-14 text-center">
+        <p class="mb-3 text-sm font-extrabold uppercase tracking-[0.18em] text-gold">Culinary Selection</p>
+        <h2 id="menu-heading" class="font-display text-5xl font-bold text-cream md:text-7xl">Explore Our Menu</h2>
+      </div>
+      <div class="mb-14 flex justify-center gap-3 overflow-x-auto border-b border-white/10 pb-4" role="tablist" aria-label="Menu categories">
+        <button class="menu-tab shrink-0 rounded-full border border-flame bg-flame/15 px-7 py-3 text-sm font-extrabold uppercase tracking-[0.12em] text-gold shadow-md transition-all duration-300" data-category="starters" role="tab" aria-selected="true">Starters</button>
+        <button class="menu-tab shrink-0 rounded-full border border-white/10 bg-transparent px-7 py-3 text-sm font-extrabold uppercase tracking-[0.12em] text-muted transition-all duration-300 hover:border-white/30 hover:text-cream" data-category="mains" role="tab" aria-selected="false">Main Course</button>
+        <button class="menu-tab shrink-0 rounded-full border border-white/10 bg-transparent px-7 py-3 text-sm font-extrabold uppercase tracking-[0.12em] text-muted transition-all duration-300 hover:border-white/30 hover:text-cream" data-category="noodles" role="tab" aria-selected="false">Noodles & Rice</button>
+        <button class="menu-tab shrink-0 rounded-full border border-white/10 bg-transparent px-7 py-3 text-sm font-extrabold uppercase tracking-[0.12em] text-muted transition-all duration-300 hover:border-white/30 hover:text-cream" data-category="soups" role="tab" aria-selected="false">Soups</button>
+      </div>
+      <div id="menuList" class="grid gap-x-16 gap-y-10 md:grid-cols-2 menu-fade in"></div>
+    </section>
+
+    <!-- Story Section -->
+    <section id="story" class="reveal border-y border-white/5 bg-smoke/80 backdrop-blur-sm px-5 py-24 md:px-16">
+      <div class="mx-auto grid max-w-site gap-16 md:grid-cols-12 md:items-center">
+        <div class="relative group md:col-span-6">
+          <div class="absolute -inset-4 bg-flame/15 rounded-3xl blur-2xl -z-10 opacity-60 transition-opacity duration-500 group-hover:opacity-100"></div>
+          <div class="photo story-photo min-h-[520px] rounded-2xl border border-white/15 shadow-2xl overflow-hidden"></div>
+          <div class="absolute bottom-6 right-6 rounded-xl bg-char/90 p-5 shadow-2xl border border-white/15 backdrop-blur-md transition-transform duration-300 group-hover:scale-105">
+            <p class="font-display text-4xl font-bold text-flame">15+</p>
+            <p class="text-xs font-extrabold uppercase tracking-[0.18em] text-cream">Years of Excellence</p>
+          </div>
+        </div>
+        <div class="md:col-span-6">
+          <p class="mb-3 text-sm font-extrabold uppercase tracking-[0.18em] text-gold">Our Heritage</p>
+          <h2 class="font-display text-5xl font-bold leading-tight text-cream md:text-6xl">A Local Favourite, One Wok at a Time.</h2>
+          <div class="my-8 h-1 w-24 bg-gradient-to-r from-flame to-gold rounded-full"></div>
+          <p class="text-lg leading-8 text-muted">New Manchow brings the bold comfort of Indo-Chinese cooking into a polished dining room: hot woks, balanced sauces, generous portions, and food that travels well for families, offices, and late-night cravings.</p>
+          <div class="mt-10 grid grid-cols-3 gap-6 border-t border-white/10 pt-8">
+            <div class="border-r border-white/10 pr-2"><p class="font-display text-4xl font-bold text-gold">15+</p><p class="mt-2 text-xs font-bold uppercase tracking-[0.14em] text-muted">Years Serving</p></div>
+            <div class="border-r border-white/10 pr-2"><p class="font-display text-4xl font-bold text-gold">60+</p><p class="mt-2 text-xs font-bold uppercase tracking-[0.14em] text-muted">Menu Favourites</p></div>
+            <div><p class="font-display text-4xl font-bold text-gold">4.8</p><p class="mt-2 text-xs font-bold uppercase tracking-[0.14em] text-muted">Guest Rating</p></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section id="gallery" class="reveal mx-auto max-w-site px-5 py-24 md:px-16">
+      <div class="mb-14 flex flex-col justify-between gap-6 md:flex-row md:items-end">
+        <div>
+          <p class="mb-3 text-sm font-extrabold uppercase tracking-[0.18em] text-gold">Gallery</p>
+          <h2 class="font-display text-5xl font-bold text-cream md:text-6xl">From Wok to Table</h2>
+        </div>
+        <button class="open-reservation rounded-full border border-white/30 px-8 py-4 text-sm font-extrabold uppercase tracking-[0.12em] text-white transition-all duration-300 hover:bg-white/10 hover:border-white/50">Reserve a Table</button>
+      </div>
+      <div class="grid gap-6 md:grid-cols-3">
+        <div class="group relative overflow-hidden rounded-2xl border border-white/15 shadow-xl md:mt-12">
+          <div class="photo gallery-one min-h-[380px] w-full"></div>
+          <div class="absolute inset-0 bg-gradient-to-t from-ink/90 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100 flex items-end p-6">
+            <p class="font-display text-xl font-bold text-cream">Authentic Wok Creation</p>
+          </div>
+        </div>
+        <div class="group relative overflow-hidden rounded-2xl border border-white/15 shadow-xl">
+          <div class="photo gallery-two min-h-[480px] w-full"></div>
+          <div class="absolute inset-0 bg-gradient-to-t from-ink/90 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100 flex items-end p-6">
+            <p class="font-display text-xl font-bold text-cream">Signature Indo-Chinese Feast</p>
+          </div>
+        </div>
+        <div class="group relative overflow-hidden rounded-2xl border border-white/15 shadow-xl md:mt-20">
+          <div class="photo gallery-three min-h-[380px] w-full"></div>
+          <div class="absolute inset-0 bg-gradient-to-t from-ink/90 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100 flex items-end p-6">
+            <p class="font-display text-xl font-bold text-cream">Dining Atmosphere</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="reveal border-t border-white/5 bg-smoke px-5 py-24 md:px-16">
+      <div class="mx-auto grid max-w-site gap-12 md:grid-cols-2">
+        <div>
+          <p class="mb-4 text-sm font-extrabold uppercase tracking-[0.18em] text-gold">Visit Us</p>
+          <h2 class="font-display text-5xl font-bold text-cream md:text-6xl">Dinner, Delivery, or a Celebration.</h2>
+          <div class="mt-10 space-y-6 text-muted">
+            <p class="flex gap-4"><span class="material-symbols-outlined text-gold">location_on</span> 18 Food District Avenue, Downtown</p>
+            <p class="flex gap-4"><span class="material-symbols-outlined text-gold">call</span> <a href="tel:+15550198488" class="hover:text-cream">+1 555 019 8488</a></p>
+            <p class="flex gap-4"><span class="material-symbols-outlined text-gold">mail</span> <a href="mailto:hello@newmanchow.com" class="hover:text-cream">hello@newmanchow.com</a></p>
+            <p class="flex gap-4"><span class="material-symbols-outlined text-gold">schedule</span> Daily, 11 AM-11 PM</p>
+          </div>
+        </div>
+        <form id="contactForm" class="rounded-lg border border-white/10 bg-char p-7">
+          <label class="mb-2 block text-xs font-bold uppercase tracking-[0.14em] text-muted" for="name">Name</label>
+          <input id="name" class="mb-5 w-full rounded border-white/20 bg-ink px-4 py-3 text-cream focus:border-flame focus:ring-flame" required />
+          <label class="mb-2 block text-xs font-bold uppercase tracking-[0.14em] text-muted" for="email">Email</label>
+          <input id="email" type="email" class="mb-5 w-full rounded border-white/20 bg-ink px-4 py-3 text-cream focus:border-flame focus:ring-flame" required />
+          <label class="mb-2 block text-xs font-bold uppercase tracking-[0.14em] text-muted" for="message">Message</label>
+          <textarea id="message" rows="5" class="mb-5 w-full rounded border-white/20 bg-ink px-4 py-3 text-cream focus:border-flame focus:ring-flame" required></textarea>
+          <button class="w-full rounded bg-ember px-7 py-4 text-sm font-extrabold uppercase tracking-[0.12em] text-white transition hover:bg-flame">Send Message</button>
+          <p id="contactStatus" class="mt-4 hidden text-sm font-bold text-gold" role="status"></p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="border-t border-white/10 bg-ink px-5 py-12 pb-28 md:px-16 md:pb-12">
+    <div class="mx-auto flex max-w-site flex-col justify-between gap-8 md:flex-row md:items-center">
+      <div>
+        <p class="font-display text-3xl font-bold text-cream">New Manchow</p>
+        <p class="mt-2 text-sm text-muted">Premium Indo-Chinese dining, pickup, and delivery.</p>
+      </div>
+      <p class="text-sm text-muted">&copy; 2026 New Manchow. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <nav class="fixed bottom-0 z-40 grid w-full grid-cols-3 border-t border-white/10 bg-char/95 text-xs font-bold uppercase tracking-[0.12em] text-muted backdrop-blur md:hidden">
+    <a href="tel:+15550198488" class="flex flex-col items-center gap-1 py-3"><span class="material-symbols-outlined text-gold">call</span>Call</a>
+    <a href="#contact" class="flex flex-col items-center gap-1 py-3"><span class="material-symbols-outlined text-gold">near_me</span>Visit</a>
+    <button class="open-order flex flex-col items-center gap-1 bg-ember py-3 text-white"><span class="material-symbols-outlined">shopping_bag</span>Order</button>
+  </nav>
+
+  <aside id="cartDrawer" class="cart-drawer fixed right-4 top-24 z-50 w-[calc(100%-2rem)] max-w-md rounded-lg border border-white/10 bg-char p-6 shadow-2xl md:right-8" aria-live="polite">
+    <div class="mb-5 flex items-center justify-between">
+      <h2 class="font-display text-3xl font-bold text-cream">Your Order</h2>
+      <button id="closeCart" aria-label="Close order"><span class="material-symbols-outlined">close</span></button>
+    </div>
+    <div id="cartItems" class="space-y-4"></div>
+    <div class="mt-6 border-t border-white/10 pt-5">
+      <div class="mb-5 flex justify-between font-bold text-cream"><span>Total</span><span id="cartTotal">$0</span></div>
+      <button id="checkoutButton" class="w-full rounded bg-ember px-7 py-4 text-sm font-extrabold uppercase tracking-[0.12em] text-white transition hover:bg-flame">Checkout</button>
+    </div>
+  </aside>
+
+  <div id="orderModal" class="modal fixed inset-0 z-50 grid place-items-center bg-black/70 p-5 backdrop-blur-sm" role="dialog" aria-modal="true" aria-labelledby="orderTitle">
+    <div class="modal-panel w-full max-w-lg rounded-lg border border-white/10 bg-char p-7">
+      <div class="mb-6 flex items-center justify-between">
+        <h2 id="orderTitle" class="font-display text-4xl font-bold text-cream">Complete Your Order</h2>
+        <button class="close-modal" data-close="orderModal" aria-label="Close order form"><span class="material-symbols-outlined">close</span></button>
+      </div>
+      <form id="orderForm">
+        <label class="mb-2 block text-xs font-bold uppercase tracking-[0.14em] text-muted" for="orderName">Name</label>
+        <input id="orderName" class="mb-5 w-full rounded border-white/20 bg-ink px-4 py-3 text-cream focus:border-flame focus:ring-flame" required />
+        <label class="mb-2 block text-xs font-bold uppercase tracking-[0.14em] text-muted" for="orderPhone">Phone</label>
+        <input id="orderPhone" class="mb-5 w-full rounded border-white/20 bg-ink px-4 py-3 text-cream focus:border-flame focus:ring-flame" required />
+        <label class="mb-2 block text-xs font-bold uppercase tracking-[0.14em] text-muted" for="orderType">Order Type</label>
+        <select id="orderType" class="mb-5 w-full rounded border-white/20 bg-ink px-4 py-3 text-cream focus:border-flame focus:ring-flame">
+          <option>Pickup</option>
+          <option>Delivery</option>
+        </select>
+        <label class="mb-2 block text-xs font-bold uppercase tracking-[0.14em] text-muted" for="orderNotes">Notes</label>
+        <textarea id="orderNotes" rows="3" class="mb-5 w-full rounded border-white/20 bg-ink px-4 py-3 text-cream focus:border-flame focus:ring-flame"></textarea>
+        <button class="w-full rounded bg-ember px-7 py-4 text-sm font-extrabold uppercase tracking-[0.12em] text-white transition hover:bg-flame">Place Order</button>
+        <p id="orderStatus" class="mt-4 hidden text-sm font-bold text-gold" role="status"></p>
+      </form>
+    </div>
+  </div>
+
+  <div id="reservationModal" class="modal fixed inset-0 z-50 grid place-items-center bg-black/70 p-5 backdrop-blur-sm" role="dialog" aria-modal="true" aria-labelledby="reservationTitle">
+    <div class="modal-panel w-full max-w-lg rounded-lg border border-white/10 bg-char p-7">
+      <div class="mb-6 flex items-center justify-between">
+        <h2 id="reservationTitle" class="font-display text-4xl font-bold text-cream">Reserve a Table</h2>
+        <button class="close-modal" data-close="reservationModal" aria-label="Close reservation form"><span class="material-symbols-outlined">close</span></button>
+      </div>
+      <form id="reservationForm">
+        <div class="grid gap-5 sm:grid-cols-2">
+          <div><label class="mb-2 block text-xs font-bold uppercase tracking-[0.14em] text-muted" for="reserveName">Name</label><input id="reserveName" class="w-full rounded border-white/20 bg-ink px-4 py-3 text-cream focus:border-flame focus:ring-flame" required /></div>
+          <div><label class="mb-2 block text-xs font-bold uppercase tracking-[0.14em] text-muted" for="reserveGuests">Guests</label><input id="reserveGuests" type="number" min="1" value="2" class="w-full rounded border-white/20 bg-ink px-4 py-3 text-cream focus:border-flame focus:ring-flame" required /></div>
+          <div><label class="mb-2 block text-xs font-bold uppercase tracking-[0.14em] text-muted" for="reserveDate">Date</label><input id="reserveDate" type="date" class="w-full rounded border-white/20 bg-ink px-4 py-3 text-cream focus:border-flame focus:ring-flame" required /></div>
+          <div><label class="mb-2 block text-xs font-bold uppercase tracking-[0.14em] text-muted" for="reserveTime">Time</label><input id="reserveTime" type="time" value="19:30" class="w-full rounded border-white/20 bg-ink px-4 py-3 text-cream focus:border-flame focus:ring-flame" required /></div>
+        </div>
+        <button class="mt-6 w-full rounded bg-ember px-7 py-4 text-sm font-extrabold uppercase tracking-[0.12em] text-white transition hover:bg-flame">Request Reservation</button>
+        <p id="reservationStatus" class="mt-4 hidden text-sm font-bold text-gold" role="status"></p>
+      </form>
+    </div>
+  </div>
+
+  <!-- Floating Cart Launcher -->
+  <button id="floatingCartBtn" aria-label="Open cart" class="fixed bottom-6 right-6 z-40 flex items-center gap-3 rounded-full bg-ember px-5 py-3.5 text-xs font-extrabold uppercase tracking-[0.14em] text-white shadow-2xl ring-2 ring-flame/40 transition-all duration-300 hover:bg-flame hover:scale-105 active:scale-95 md:bottom-8 md:right-8">
+    <span class="material-symbols-outlined text-xl">shopping_bag</span>
+    <span class="hidden sm:inline">Order Cart</span>
+    <span id="floatingCartCount" class="flex h-5 w-5 items-center justify-center rounded-full bg-white text-[10px] font-black text-ink">0</span>
+  </button>
+
+  <script>
+    const menuData = {
+      starters: [
+        ["Chicken Spring Rolls", "Crispy rolls filled with minced chicken, cabbage, carrots, and sweet chilli sauce.", 10],
+        ["Veg Manchurian Dry", "Vegetable dumplings deep fried and tossed in soy-garlic sauce.", 12],
+        ["Chilli Prawns", "Prawns wok-tossed with green chillies, bell peppers, and dark soy.", 16],
+        ["Crispy Honey Lotus Stem", "Thin lotus root crisps glazed with honey and sesame.", 14],
+        ["Drums of Heaven", "Chicken winglets tossed in spicy garlic and ginger sauce.", 15],
+        ["Salt & Pepper Mushroom", "Button mushrooms tossed with sea salt, pepper, and scallions.", 12]
+      ],
+      mains: [
+        ["Classic Chilli Beef", "Crispy beef strips with green chillies, garlic, and soy.", 20],
+        ["Dragon Chicken", "Sweet-spicy chicken with cashew nuts and dry red chillies.", 19],
+        ["Schezwan Paneer", "Cottage cheese, peppers, onions, and house Schezwan sauce.", 17],
+        ["Black Pepper Fish", "Tender fish fillets in black pepper oyster-style sauce.", 22],
+        ["Hot Garlic Vegetables", "Seasonal vegetables in a glossy chilli garlic sauce.", 15],
+        ["Manchow Special Combo", "Choice of main with noodles or fried rice.", 24]
+      ],
+      noodles: [
+        ["Burnt Garlic Noodles", "Noodles with crisp garlic, scallions, vegetables, and chilli oil.", 16],
+        ["Chicken Hakka Noodles", "Classic wok-fired noodles with chicken and spring onions.", 17],
+        ["Schezwan Fried Rice", "Smoky fried rice with bold Schezwan paste and vegetables.", 15],
+        ["Egg Chilli Garlic Rice", "Egg fried rice with garlic, chilli, and soy.", 14],
+        ["Triple Schezwan Rice", "Rice, noodles, crispy noodles, and Manchurian gravy.", 21],
+        ["Prawn Chilli Noodles", "Noodles tossed with prawns, peppers, and chilli bean sauce.", 22]
+      ],
+      soups: [
+        ["Manchow Soup", "Peppery broth with vegetables, herbs, and crispy noodles.", 9],
+        ["Hot & Sour Soup", "Tangy-spicy soup with bamboo shoot, mushroom, and tofu.", 9],
+        ["Sweet Corn Chicken Soup", "Silky corn broth with shredded chicken.", 10],
+        ["Lemon Coriander Soup", "Light broth with fresh coriander and lemon.", 8],
+        ["Tom Yum Prawn Soup", "Aromatic lemongrass broth with prawns.", 13],
+        ["Clear Vegetable Soup", "Clean vegetable broth for a lighter start.", 8]
+      ]
+    };
+
+    const cart = [];
+    const menuList = document.querySelector("#menuList");
+    const cartDrawer = document.querySelector("#cartDrawer");
+    const cartItems = document.querySelector("#cartItems");
+    const cartTotal = document.querySelector("#cartTotal");
+
+    function renderMenu(category) {
+      menuList.classList.remove("in");
+      setTimeout(() => {
+        menuList.innerHTML = menuData[category].map(([name, description, price]) => `
+          <article class="group border-b border-white/10 pb-6 transition-all duration-300 hover:border-flame/40">
+            <div class="mb-2 flex items-baseline gap-4">
+              <h3 class="font-display text-2xl font-bold text-cream transition-colors group-hover:text-gold">${name}</h3>
+              <span class="flex-1 border-b border-dotted border-white/20"></span>
+              <p class="font-display text-2xl font-bold text-gold">$${price}</p>
+            </div>
+            <p class="mb-4 leading-7 text-muted text-sm">${description}</p>
+            <button class="quick-add flex items-center gap-1 text-xs font-extrabold uppercase tracking-[0.14em] text-gold transition-colors hover:text-white" data-name="${name}" data-price="${price}">
+              Add to order <span class="material-symbols-outlined text-base">add</span>
+            </button>
+          </article>
+        `).join("");
+        menuList.classList.add("in");
+      }, 150);
+    }
+
+    function addToCart(name, price) {
+      const item = cart.find((entry) => entry.name === name);
+      if (item) {
+        item.quantity += 1;
+      } else {
+        cart.push({ name, price: Number(price), quantity: 1 });
+      }
+      renderCart();
+      cartDrawer.classList.add("active");
+    }
+
+    function renderCart() {
+      const totalCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+      const floatingCartCount = document.querySelector("#floatingCartCount");
+      if (floatingCartCount) floatingCartCount.textContent = totalCount;
+
+      if (!cart.length) {
+        cartItems.innerHTML = '<p class="text-muted text-sm">Your order is empty. Add a few favourites from the menu.</p>';
+      } else {
+        cartItems.innerHTML = cart.map((item, index) => `
+          <div class="flex items-center justify-between gap-4 border-b border-white/10 pb-4">
+            <div>
+              <p class="font-bold text-cream">${item.name}</p>
+              <p class="text-sm text-muted">$${item.price} x ${item.quantity}</p>
+            </div>
+            <div class="flex items-center gap-3">
+              <button class="quantity-change rounded border border-white/20 px-2 py-0.5 text-cream transition hover:bg-white/10" data-index="${index}" data-delta="-1" aria-label="Decrease ${item.name}">-</button>
+              <span class="font-bold text-gold">${item.quantity}</span>
+              <button class="quantity-change rounded border border-white/20 px-2 py-0.5 text-cream transition hover:bg-white/10" data-index="${index}" data-delta="1" aria-label="Increase ${item.name}">+</button>
+            </div>
+          </div>
+        `).join("");
+      }
+      const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+      cartTotal.textContent = `$${total}`;
+    }
+
+    function openModal(id) {
+      document.querySelector(`#${id}`).classList.add("active");
+      document.body.classList.add("modal-open");
+    }
+
+    function closeModal(id) {
+      document.querySelector(`#${id}`).classList.remove("active");
+      if (!document.querySelector(".modal.active")) {
+        document.body.classList.remove("modal-open");
+      }
+    }
+
+    document.querySelector("#mobileMenuButton").addEventListener("click", (event) => {
+      const menu = document.querySelector("#mobileMenu");
+      const expanded = event.currentTarget.getAttribute("aria-expanded") === "true";
+      menu.classList.toggle("hidden");
+      event.currentTarget.setAttribute("aria-expanded", String(!expanded));
+    });
+
+    document.querySelectorAll("#mobileMenu a").forEach((link) => {
+      link.addEventListener("click", () => document.querySelector("#mobileMenu").classList.add("hidden"));
+    });
+
+    document.querySelectorAll(".menu-tab").forEach((tab) => {
+      tab.addEventListener("click", () => {
+        document.querySelectorAll(".menu-tab").forEach((item) => {
+          item.classList.remove("border-flame", "bg-flame/15", "text-gold", "shadow-md");
+          item.classList.add("border-white/10", "bg-transparent", "text-muted");
+          item.setAttribute("aria-selected", "false");
+        });
+        tab.classList.add("border-flame", "bg-flame/15", "text-gold", "shadow-md");
+        tab.classList.remove("border-white/10", "bg-transparent", "text-muted");
+        tab.setAttribute("aria-selected", "true");
+        renderMenu(tab.dataset.category);
+      });
+    });
+
+    document.addEventListener("click", (event) => {
+      const quickAdd = event.target.closest(".quick-add");
+      const cardAdd = event.target.closest(".add-to-cart");
+      if (quickAdd) addToCart(quickAdd.dataset.name, quickAdd.dataset.price);
+      if (cardAdd) {
+        const card = cardAdd.closest(".dish-card");
+        addToCart(card.dataset.name, card.dataset.price);
+      }
+    });
+
+    cartItems.addEventListener("click", (event) => {
+      const button = event.target.closest(".quantity-change");
+      if (!button) return;
+      const item = cart[Number(button.dataset.index)];
+      item.quantity += Number(button.dataset.delta);
+      if (item.quantity <= 0) cart.splice(Number(button.dataset.index), 1);
+      renderCart();
+    });
+
+    document.querySelector("#floatingCartBtn").addEventListener("click", () => cartDrawer.classList.toggle("active"));
+    document.querySelector("#closeCart").addEventListener("click", () => cartDrawer.classList.remove("active"));
+    document.querySelector("#checkoutButton").addEventListener("click", () => openModal("orderModal"));
+    document.querySelectorAll(".open-order").forEach((button) => button.addEventListener("click", () => openModal("orderModal")));
+    document.querySelectorAll(".open-reservation").forEach((button) => button.addEventListener("click", () => openModal("reservationModal")));
+    document.querySelectorAll(".close-modal").forEach((button) => button.addEventListener("click", () => closeModal(button.dataset.close)));
+    document.querySelectorAll(".modal").forEach((modal) => modal.addEventListener("click", (event) => {
+      if (event.target === modal) closeModal(modal.id);
+    }));
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") {
+        document.querySelectorAll(".modal.active").forEach((modal) => closeModal(modal.id));
+        cartDrawer.classList.remove("active");
+      }
+    });
+
+    document.querySelector("#orderForm").addEventListener("submit", (event) => {
+      event.preventDefault();
+      const status = document.querySelector("#orderStatus");
+      status.textContent = "Order received. We will call you shortly to confirm.";
+      status.classList.remove("hidden");
+      cart.length = 0;
+      renderCart();
+    });
+
+    document.querySelector("#reservationForm").addEventListener("submit", (event) => {
+      event.preventDefault();
+      const status = document.querySelector("#reservationStatus");
+      status.textContent = "Reservation request sent. We will confirm availability soon.";
+      status.classList.remove("hidden");
+    });
+
+    document.querySelector("#contactForm").addEventListener("submit", (event) => {
+      event.preventDefault();
+      const status = document.querySelector("#contactStatus");
+      status.textContent = "Thanks. Your message has been queued for the New Manchow team.";
+      status.classList.remove("hidden");
+      event.currentTarget.reset();
+    });
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) entry.target.classList.add("active");
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll(".reveal").forEach((element) => observer.observe(element));
+    renderMenu("starters");
+    renderCart();
+  </script>
+</body>
+</html>
