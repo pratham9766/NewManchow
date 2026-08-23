@@ -5,6 +5,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="New Manchow serves premium Indo-Chinese food with wok-fired mains, signature starters, noodles, soups, and fast online ordering." />
   <title>New Manchow | Wok-Fired Indo-Chinese Dining</title>
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔥</text></svg>" />
+  <!-- Open Graph / Social Metadata -->
+  <meta property="og:title" content="New Manchow | Wok-Fired Indo-Chinese Dining" />
+  <meta property="og:description" content="New Manchow serves premium Indo-Chinese food with wok-fired mains, signature starters, noodles, soups, and fast online ordering." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="./assets/images/hero_dish.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="New Manchow | Wok-Fired Indo-Chinese Dining" />
+  <meta name="twitter:description" content="New Manchow serves premium Indo-Chinese food with wok-fired mains, signature starters, noodles, soups, and fast online ordering." />
+  <meta name="twitter:image" content="./assets/images/hero_dish.png" />
   <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -36,6 +47,10 @@
     };
   </script>
   <style>
+    :root {
+      --ease-editorial: cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
     html {
       scroll-behavior: smooth;
     }
@@ -59,14 +74,68 @@
       letter-spacing: -0.01em;
     }
 
+    /* Editorial Headings Clip Mask Reveal */
+    .editorial-mask {
+      display: block;
+      overflow: hidden;
+    }
+
+    .editorial-mask-inner {
+      display: block;
+      transform: translateY(120%);
+      opacity: 0;
+      transition: transform 1.3s var(--ease-editorial), opacity 1.3s var(--ease-editorial);
+    }
+
+    .editorial-mask-inner.active,
+    .reveal.active .editorial-mask-inner {
+      transform: translateY(0%);
+      opacity: 1;
+    }
+
+    /* Hero Load Entrance */
+    .hero-nav {
+      transform: translateY(-30px);
+      opacity: 0;
+      transition: transform 0.9s var(--ease-editorial), opacity 0.9s var(--ease-editorial);
+    }
+    .hero-nav.loaded {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    .hero-photo-reveal {
+      opacity: 0;
+      transform: translateX(35px) scale(1.06);
+      transition: opacity 1.4s var(--ease-editorial), transform 1.4s var(--ease-editorial);
+    }
+    .hero-photo-reveal.active {
+      opacity: 1;
+      transform: translateX(0) scale(1);
+    }
+
+    .hero-badge-reveal {
+      opacity: 0;
+      transform: translateY(25px);
+      transition: opacity 0.9s var(--ease-editorial) 0.4s, transform 0.9s var(--ease-editorial) 0.4s;
+    }
+    .hero-badge-reveal.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
     .hero-photo {
       background-image:
         linear-gradient(180deg, rgba(9, 9, 9, 0.2) 0%, rgba(9, 9, 9, 0.4) 100%),
         url("./assets/images/hero_dish.png");
+      background-position: center;
+      background-size: cover;
     }
 
     .story-photo {
       background-image: url("./assets/images/storefront.png");
+      background-position: center;
+      background-size: cover;
     }
 
     .dish-lollipop {
@@ -97,17 +166,18 @@
       background-position: center;
       background-size: cover;
       background-color: #181818;
-      transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+      transition: transform 0.9s var(--ease-editorial);
     }
 
     .group:hover .photo {
-      transform: scale(1.06);
+      transform: scale(1.05);
     }
 
+    /* Scroll Reveals */
     .reveal {
       opacity: 0;
-      transform: translateY(32px);
-      transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+      transform: translateY(55px);
+      transition: opacity 1.35s var(--ease-editorial), transform 1.35s var(--ease-editorial);
     }
 
     .reveal.active {
@@ -115,14 +185,107 @@
       transform: translateY(0);
     }
 
-    .delay-100 { transition-delay: 100ms; }
-    .delay-200 { transition-delay: 200ms; }
-    .delay-300 { transition-delay: 300ms; }
+    [data-reveal="fade-up"] {
+      opacity: 0;
+      transform: translateY(55px);
+      transition: opacity 1.35s var(--ease-editorial), transform 1.35s var(--ease-editorial);
+    }
+    [data-reveal="fade-up"].active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    [data-reveal="slide-left"] {
+      opacity: 0;
+      transform: translateX(-55px);
+      transition: opacity 1.35s var(--ease-editorial), transform 1.35s var(--ease-editorial);
+    }
+    [data-reveal="slide-left"].active {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    [data-reveal="slide-right"] {
+      opacity: 0;
+      transform: translateX(55px);
+      transition: opacity 1.35s var(--ease-editorial), transform 1.35s var(--ease-editorial);
+    }
+    [data-reveal="slide-right"].active {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    [data-reveal="scale-up"] {
+      opacity: 0;
+      transform: scale(0.93) translateY(35px);
+      transition: opacity 1.2s var(--ease-editorial), transform 1.2s var(--ease-editorial);
+    }
+    [data-reveal="scale-up"].active {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+    }
+
+    .stagger-1 { transition-delay: 140ms !important; }
+    .stagger-2 { transition-delay: 280ms !important; }
+    .stagger-3 { transition-delay: 420ms !important; }
+    .stagger-4 { transition-delay: 560ms !important; }
+
+    /* Nav Header Glassmorphic Scroll State */
+    header {
+      transition: background-color 0.3s ease, backdrop-filter 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+    header.header-scrolled {
+      background-color: rgba(12, 8, 6, 0.94);
+      backdrop-filter: blur(16px);
+      border-bottom-color: rgba(255, 255, 255, 0.12);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    }
+
+    /* Nav Links Underline Expansion */
+    .nav-link-custom {
+      position: relative;
+      padding-bottom: 4px;
+    }
+    .nav-link-custom::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0%;
+      height: 2px;
+      background-color: #FC5A1F;
+      transition: width 0.3s var(--ease-editorial);
+    }
+    .nav-link-custom:hover::after,
+    .nav-link-custom.active::after {
+      width: 100%;
+    }
+
+    /* Button Micro-Interactions */
+    .btn-micro {
+      transition: transform 0.25s var(--ease-editorial), background-color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+    }
+    .btn-micro:hover {
+      transform: translateY(-2px);
+    }
+    .btn-micro:active {
+      transform: scale(0.97);
+    }
+
+    /* Card Micro-Interactions */
+    .card-micro {
+      transition: transform 0.35s var(--ease-editorial), border-color 0.35s ease, box-shadow 0.35s ease;
+    }
+    .card-micro:hover {
+      transform: translateY(-4px);
+      border-color: rgba(252, 90, 31, 0.45);
+      box-shadow: 0 20px 45px rgba(252, 90, 31, 0.14);
+    }
 
     .modal {
       opacity: 0;
       pointer-events: none;
-      transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      transition: opacity 0.3s var(--ease-editorial);
     }
 
     .modal.active {
@@ -132,7 +295,7 @@
 
     .modal-panel {
       transform: translateY(24px) scale(0.96);
-      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      transition: transform 0.3s var(--ease-editorial);
     }
 
     .modal.active .modal-panel {
@@ -141,7 +304,7 @@
 
     .cart-drawer {
       transform: translateX(110%);
-      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      transition: transform 0.35s var(--ease-editorial);
     }
 
     .cart-drawer.active {
@@ -150,8 +313,8 @@
 
     .menu-fade {
       opacity: 0;
-      transform: translateY(12px);
-      transition: opacity 0.35s ease, transform 0.35s ease;
+      transform: translateY(8px);
+      transition: opacity 0.28s ease, transform 0.28s ease;
     }
 
     .menu-fade.in {
@@ -168,6 +331,20 @@
       animation: pulse-glow 6s infinite ease-in-out;
     }
 
+    /* Reduced Motion Fallback */
+    @media (prefers-reduced-motion: reduce) {
+      *, ::before, ::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+      .editorial-mask-inner, [data-reveal], .hero-photo-reveal, .hero-nav, .hero-badge-reveal {
+        transform: none !important;
+        opacity: 1 !important;
+      }
+    }
+
     @media (max-width: 767px) {
       .hero-photo {
         min-height: 380px;
@@ -176,19 +353,19 @@
   </style>
 </head>
 <body class="overflow-x-hidden antialiased selection:bg-ember selection:text-white">
-  <header class="sticky top-0 z-40 border-b border-white/10 bg-ink/90 backdrop-blur-xl">
+  <header id="siteHeader" class="sticky top-0 z-40 border-b border-white/10 bg-ink/80 backdrop-blur-xl hero-nav">
     <div class="mx-auto flex max-w-site items-center justify-between px-5 py-5 md:px-16">
       <a href="#home" class="font-display text-3xl font-bold text-cream">New Manchow</a>
       <nav class="hidden items-center gap-10 text-sm font-bold uppercase tracking-[0.14em] text-muted md:flex" aria-label="Primary navigation">
-        <a class="nav-link border-b-2 border-flame pb-1 text-gold" href="#home">Home</a>
-        <a class="nav-link pb-1 transition hover:text-cream" href="#menu">Menu</a>
-        <a class="nav-link pb-1 transition hover:text-cream" href="#story">Story</a>
-        <a class="nav-link pb-1 transition hover:text-cream" href="#gallery">Gallery</a>
-        <a class="nav-link pb-1 transition hover:text-cream" href="#contact">Contact</a>
+        <a class="nav-link nav-link-custom active text-gold" href="#home">Home</a>
+        <a class="nav-link nav-link-custom transition hover:text-cream" href="#menu">Menu</a>
+        <a class="nav-link nav-link-custom transition hover:text-cream" href="#story">Story</a>
+        <a class="nav-link nav-link-custom transition hover:text-cream" href="#gallery">Gallery</a>
+        <a class="nav-link nav-link-custom transition hover:text-cream" href="#contact">Contact</a>
       </nav>
-      <button class="open-order hidden items-center gap-2 rounded bg-ember px-8 py-4 text-sm font-extrabold uppercase tracking-[0.12em] text-white transition hover:bg-flame md:flex">
+      <button class="open-order btn-micro hidden items-center gap-2 rounded-full bg-ember px-8 py-4 text-sm font-extrabold uppercase tracking-[0.12em] text-white transition hover:bg-flame md:flex">
         Order Now
-        <span class="material-symbols-outlined rotate-[-45deg] text-xl">arrow_forward</span>
+        <span class="material-symbols-outlined rotate-[-45deg] text-xl transition-transform duration-300 group-hover:translate-x-1">arrow_forward</span>
       </button>
       <button class="md:hidden" id="mobileMenuButton" aria-label="Open menu" aria-expanded="false">
         <span class="material-symbols-outlined text-3xl">menu</span>
@@ -209,26 +386,27 @@
     <div class="absolute top-[35%] right-10 w-[600px] h-[600px] bg-ember/10 rounded-full blur-[140px] pointer-events-none glow-pulse"></div>
 
     <!-- Hero Section -->
-    <section id="home" class="reveal mx-auto grid max-w-site gap-12 px-6 py-16 lg:px-16 lg:py-24 md:grid-cols-12 items-center">
+    <section id="home" class="mx-auto grid max-w-site gap-12 px-6 py-16 lg:px-16 lg:py-24 md:grid-cols-12 items-center">
       <div class="z-10 flex flex-col justify-center md:col-span-6 lg:col-span-6">
-        <div class="mb-6 inline-flex items-center gap-2 rounded-full border border-flame/30 bg-flame/10 px-4 py-1.5 backdrop-blur-md w-max">
+        <div data-reveal="fade-up" class="mb-6 inline-flex items-center gap-2 rounded-full border border-flame/30 bg-flame/10 px-4 py-1.5 backdrop-blur-md w-max">
           <span class="h-2 w-2 rounded-full bg-flame animate-ping"></span>
           <span class="text-xs font-extrabold uppercase tracking-[0.18em] text-gold">Authentic Indo-Chinese Cuisine</span>
         </div>
         <h1 class="display-lock font-display text-[3.8rem] font-bold leading-[1.02] text-cream sm:text-[5rem] lg:text-[5.6rem]">
-          Taste the <span class="text-flame">Fire</span> of the Wok
+          <span class="editorial-mask"><span class="editorial-mask-inner">Taste the <span class="text-flame">Fire</span></span></span>
+          <span class="editorial-mask"><span class="editorial-mask-inner" style="transition-delay: 110ms;">of the Wok</span></span>
         </h1>
-        <p class="mt-7 max-w-xl text-lg leading-8 text-muted">
+        <p data-reveal="fade-up" class="mt-7 max-w-xl text-lg leading-8 text-muted stagger-1">
           Wok-tossed noodles, smoky sauces, crisp starters, and family-style mains prepared with the heat, speed, and generosity that New Manchow is known for.
         </p>
-        <div class="mt-9 flex flex-col gap-4 sm:flex-row">
-          <button class="open-order group flex items-center justify-center gap-3 rounded-full bg-ember px-9 py-5 text-sm font-extrabold uppercase tracking-[0.12em] text-white shadow-lg transition-all duration-300 hover:bg-flame hover:shadow-[0_0_30px_rgba(252,90,31,0.4)]">
+        <div data-reveal="fade-up" class="mt-9 flex flex-col gap-4 sm:flex-row stagger-2">
+          <button class="open-order btn-micro group flex items-center justify-center gap-3 rounded-full bg-ember px-9 py-5 text-sm font-extrabold uppercase tracking-[0.12em] text-white shadow-lg hover:bg-flame hover:shadow-[0_0_30px_rgba(252,90,31,0.4)]">
             Order Your Meal
             <span class="material-symbols-outlined rotate-[-45deg] transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1">arrow_forward</span>
           </button>
-          <a href="#menu" class="flex items-center justify-center rounded-full border border-white/20 px-9 py-5 text-sm font-extrabold uppercase tracking-[0.12em] text-white transition-all duration-300 hover:bg-white/10 hover:border-white/40">Explore Menu</a>
+          <a href="#menu" class="btn-micro flex items-center justify-center rounded-full border border-white/20 px-9 py-5 text-sm font-extrabold uppercase tracking-[0.12em] text-white hover:bg-white/10 hover:border-white/40">Explore Menu</a>
         </div>
-        <dl class="mt-10 grid grid-cols-3 gap-4 border-t border-white/10 pt-8">
+        <dl data-reveal="fade-up" class="mt-10 grid grid-cols-3 gap-4 border-t border-white/10 pt-8 stagger-3">
           <div class="border-r border-white/10 pr-4">
             <dt class="flex items-center gap-2 text-sm text-gold"><span class="material-symbols-outlined text-base">star</span> Rating</dt>
             <dd class="mt-2 text-2xl font-extrabold text-cream">4.8 <span class="text-xs font-normal text-muted">/ 5.0</span></dd>
@@ -245,8 +423,8 @@
       </div>
       <div class="relative md:col-span-6 lg:col-span-6 group w-full">
         <div class="absolute -inset-4 bg-flame/20 rounded-3xl blur-2xl -z-10 transition-opacity duration-500 group-hover:opacity-100 opacity-70"></div>
-        <div class="photo hero-photo w-full aspect-square sm:aspect-[4/3] md:aspect-[4/3.5] lg:aspect-square max-w-[640px] mx-auto rounded-3xl border border-white/15 shadow-2xl overflow-hidden"></div>
-        <div class="absolute bottom-6 left-6 hidden rounded-2xl bg-char/90 p-5 shadow-2xl ring-1 ring-white/15 backdrop-blur-md lg:block transition-transform duration-300 group-hover:scale-105">
+        <div class="photo hero-photo hero-photo-reveal w-full aspect-square sm:aspect-[4/3] md:aspect-[4/3.5] lg:aspect-square max-w-[640px] mx-auto rounded-3xl border border-white/15 shadow-2xl overflow-hidden" id="heroParallaxPhoto"></div>
+        <div class="absolute bottom-6 left-6 hidden rounded-2xl bg-char/90 p-5 shadow-2xl ring-1 ring-white/15 backdrop-blur-md lg:block transition-transform duration-300 group-hover:scale-105 hero-badge-reveal" id="heroBadge">
           <div class="flex items-center gap-4">
             <div class="rounded-xl bg-flame/20 p-3 text-gold"><span class="material-symbols-outlined text-3xl">stars</span></div>
             <div>
@@ -264,7 +442,9 @@
         <div class="mb-14 flex flex-col justify-between gap-6 md:flex-row md:items-end">
           <div>
             <p class="mb-3 text-sm font-extrabold uppercase tracking-[0.18em] text-gold">Signature Dishes</p>
-            <h2 id="signature-heading" class="font-display text-5xl font-bold leading-tight text-cream md:text-6xl">Flavours Worth Coming Back For</h2>
+            <h2 id="signature-heading" class="font-display text-5xl font-bold leading-tight text-cream md:text-6xl">
+              <span class="editorial-mask"><span class="editorial-mask-inner">Flavours Worth Coming Back For</span></span>
+            </h2>
           </div>
           <a href="#menu" class="group flex items-center gap-2 border-b border-gold/40 pb-1 text-sm font-extrabold uppercase tracking-[0.14em] text-gold transition-colors hover:text-white hover:border-white">
             View Full Menu
@@ -272,7 +452,7 @@
           </a>
         </div>
         <div class="grid gap-8 md:grid-cols-3">
-          <article class="dish-card group overflow-hidden rounded-2xl border border-white/10 bg-char shadow-xl transition-all duration-500 hover:-translate-y-2 hover:border-flame/40 hover:shadow-[0_20px_50px_rgba(252,90,31,0.15)] delay-100" data-name="Lollipop Chicken" data-price="18">
+          <article class="dish-card card-micro group overflow-hidden rounded-2xl border border-white/10 bg-char shadow-xl" data-reveal="fade-up" data-name="Lollipop Chicken" data-price="18">
             <div class="overflow-hidden aspect-[4/3] relative">
               <div class="photo dish-lollipop h-full w-full"></div>
               <span class="absolute top-4 left-4 rounded-full bg-flame/90 px-3.5 py-1 text-[10px] font-extrabold uppercase tracking-[0.16em] text-white shadow-md backdrop-blur">Chef's Special</span>
@@ -283,12 +463,12 @@
                 <p class="font-display text-2xl font-bold text-gold">$18</p>
               </div>
               <p class="min-h-20 leading-7 text-muted text-sm">Pan-crisped tender chicken wings tossed in rich, fiery Schezwan peppercorn sauce.</p>
-              <button class="add-to-cart mt-6 flex w-full items-center justify-center gap-2 rounded-full border border-white/20 bg-white/5 py-3 text-xs font-extrabold uppercase tracking-[0.14em] text-gold transition-all duration-300 group-hover:bg-ember group-hover:text-white group-hover:border-ember">
-                Add to Order <span class="material-symbols-outlined text-base">add_shopping_cart</span>
+              <button class="add-to-cart btn-micro mt-6 flex w-full items-center justify-center gap-2 rounded-full border border-white/20 bg-white/5 py-3 text-xs font-extrabold uppercase tracking-[0.14em] text-gold group-hover:bg-ember group-hover:text-white group-hover:border-ember">
+                Add to Order <span class="material-symbols-outlined text-base transition-transform duration-300 group-hover:translate-x-1">add_shopping_cart</span>
               </button>
             </div>
           </article>
-          <article class="dish-card group overflow-hidden rounded-2xl border border-white/10 bg-char shadow-xl transition-all duration-500 hover:-translate-y-2 hover:border-flame/40 hover:shadow-[0_20px_50px_rgba(252,90,31,0.15)] delay-200" data-name="Veg Manchurian Dry" data-price="14">
+          <article class="dish-card card-micro group overflow-hidden rounded-2xl border border-white/10 bg-char shadow-xl stagger-1" data-reveal="fade-up" data-name="Veg Manchurian Dry" data-price="14">
             <div class="overflow-hidden aspect-[4/3] relative">
               <div class="photo dish-manchurian h-full w-full"></div>
               <span class="absolute top-4 left-4 rounded-full bg-ember/90 px-3.5 py-1 text-[10px] font-extrabold uppercase tracking-[0.16em] text-white shadow-md backdrop-blur">Popular Choice</span>
@@ -299,12 +479,12 @@
                 <p class="font-display text-2xl font-bold text-gold">$14</p>
               </div>
               <p class="min-h-20 leading-7 text-muted text-sm">Classic wok-tossed noodles with julienned vegetables and aromatic savory spices.</p>
-              <button class="add-to-cart mt-6 flex w-full items-center justify-center gap-2 rounded-full border border-white/20 bg-white/5 py-3 text-xs font-extrabold uppercase tracking-[0.14em] text-gold transition-all duration-300 group-hover:bg-ember group-hover:text-white group-hover:border-ember">
-                Add to Order <span class="material-symbols-outlined text-base">add_shopping_cart</span>
+              <button class="add-to-cart btn-micro mt-6 flex w-full items-center justify-center gap-2 rounded-full border border-white/20 bg-white/5 py-3 text-xs font-extrabold uppercase tracking-[0.14em] text-gold group-hover:bg-ember group-hover:text-white group-hover:border-ember">
+                Add to Order <span class="material-symbols-outlined text-base transition-transform duration-300 group-hover:translate-x-1">add_shopping_cart</span>
               </button>
             </div>
           </article>
-          <article class="dish-card group overflow-hidden rounded-2xl border border-white/10 bg-char shadow-xl transition-all duration-500 hover:-translate-y-2 hover:border-flame/40 hover:shadow-[0_20px_50px_rgba(252,90,31,0.15)] delay-300" data-name="Burnt Garlic Noodles" data-price="16">
+          <article class="dish-card card-micro group overflow-hidden rounded-2xl border border-white/10 bg-char shadow-xl stagger-2" data-reveal="fade-up" data-name="Burnt Garlic Noodles" data-price="16">
             <div class="overflow-hidden aspect-[4/3] relative">
               <div class="photo dish-noodles h-full w-full"></div>
               <span class="absolute top-4 left-4 rounded-full bg-gold/90 px-3.5 py-1 text-[10px] font-extrabold uppercase tracking-[0.16em] text-ink shadow-md backdrop-blur">Wok Special</span>
@@ -315,8 +495,8 @@
                 <p class="font-display text-2xl font-bold text-gold">$22</p>
               </div>
               <p class="min-h-20 leading-7 text-muted text-sm">Delicious combination dish feast featuring starters, rice, and signature sauces.</p>
-              <button class="add-to-cart mt-6 flex w-full items-center justify-center gap-2 rounded-full border border-white/20 bg-white/5 py-3 text-xs font-extrabold uppercase tracking-[0.14em] text-gold transition-all duration-300 group-hover:bg-ember group-hover:text-white group-hover:border-ember">
-                Add to Order <span class="material-symbols-outlined text-base">add_shopping_cart</span>
+              <button class="add-to-cart btn-micro mt-6 flex w-full items-center justify-center gap-2 rounded-full border border-white/20 bg-white/5 py-3 text-xs font-extrabold uppercase tracking-[0.14em] text-gold group-hover:bg-ember group-hover:text-white group-hover:border-ember">
+                Add to Order <span class="material-symbols-outlined text-base transition-transform duration-300 group-hover:translate-x-1">add_shopping_cart</span>
               </button>
             </div>
           </article>
@@ -328,13 +508,15 @@
     <section id="menu" class="reveal mx-auto max-w-site px-5 py-24 md:px-16" aria-labelledby="menu-heading">
       <div class="mb-14 text-center">
         <p class="mb-3 text-sm font-extrabold uppercase tracking-[0.18em] text-gold">Culinary Selection</p>
-        <h2 id="menu-heading" class="font-display text-5xl font-bold text-cream md:text-7xl">Explore Our Menu</h2>
+        <h2 id="menu-heading" class="font-display text-5xl font-bold text-cream md:text-7xl">
+          <span class="editorial-mask"><span class="editorial-mask-inner">Explore Our Menu</span></span>
+        </h2>
       </div>
       <div class="mb-14 flex justify-center gap-3 overflow-x-auto border-b border-white/10 pb-4" role="tablist" aria-label="Menu categories">
-        <button class="menu-tab shrink-0 rounded-full border border-flame bg-flame/15 px-7 py-3 text-sm font-extrabold uppercase tracking-[0.12em] text-gold shadow-md transition-all duration-300" data-category="starters" role="tab" aria-selected="true">Starters</button>
-        <button class="menu-tab shrink-0 rounded-full border border-white/10 bg-transparent px-7 py-3 text-sm font-extrabold uppercase tracking-[0.12em] text-muted transition-all duration-300 hover:border-white/30 hover:text-cream" data-category="mains" role="tab" aria-selected="false">Main Course</button>
-        <button class="menu-tab shrink-0 rounded-full border border-white/10 bg-transparent px-7 py-3 text-sm font-extrabold uppercase tracking-[0.12em] text-muted transition-all duration-300 hover:border-white/30 hover:text-cream" data-category="noodles" role="tab" aria-selected="false">Noodles & Rice</button>
-        <button class="menu-tab shrink-0 rounded-full border border-white/10 bg-transparent px-7 py-3 text-sm font-extrabold uppercase tracking-[0.12em] text-muted transition-all duration-300 hover:border-white/30 hover:text-cream" data-category="soups" role="tab" aria-selected="false">Soups</button>
+        <button class="menu-tab shrink-0 rounded-full border border-flame bg-flame/15 px-7 py-3 text-sm font-extrabold uppercase tracking-[0.12em] text-gold shadow-md transition-all duration-300 btn-micro" data-category="starters" role="tab" aria-selected="true">Starters</button>
+        <button class="menu-tab shrink-0 rounded-full border border-white/10 bg-transparent px-7 py-3 text-sm font-extrabold uppercase tracking-[0.12em] text-muted transition-all duration-300 hover:border-white/30 hover:text-cream btn-micro" data-category="mains" role="tab" aria-selected="false">Main Course</button>
+        <button class="menu-tab shrink-0 rounded-full border border-white/10 bg-transparent px-7 py-3 text-sm font-extrabold uppercase tracking-[0.12em] text-muted transition-all duration-300 hover:border-white/30 hover:text-cream btn-micro" data-category="noodles" role="tab" aria-selected="false">Noodles & Rice</button>
+        <button class="menu-tab shrink-0 rounded-full border border-white/10 bg-transparent px-7 py-3 text-sm font-extrabold uppercase tracking-[0.12em] text-muted transition-all duration-300 hover:border-white/30 hover:text-cream btn-micro" data-category="soups" role="tab" aria-selected="false">Soups</button>
       </div>
       <div id="menuList" class="grid gap-x-16 gap-y-10 md:grid-cols-2 menu-fade in"></div>
     </section>
@@ -342,23 +524,26 @@
     <!-- Story Section -->
     <section id="story" class="reveal border-y border-white/5 bg-smoke/80 backdrop-blur-sm px-5 py-24 md:px-16">
       <div class="mx-auto grid max-w-site gap-16 md:grid-cols-12 md:items-center">
-        <div class="relative group md:col-span-6">
+        <div class="relative group md:col-span-6" data-reveal="slide-left">
           <div class="absolute -inset-4 bg-flame/15 rounded-3xl blur-2xl -z-10 opacity-60 transition-opacity duration-500 group-hover:opacity-100"></div>
-          <div class="photo story-photo min-h-[520px] rounded-2xl border border-white/15 shadow-2xl overflow-hidden"></div>
+          <div class="photo story-photo min-h-[520px] rounded-2xl border border-white/15 shadow-2xl overflow-hidden" id="storyParallaxPhoto"></div>
           <div class="absolute bottom-6 right-6 rounded-xl bg-char/90 p-5 shadow-2xl border border-white/15 backdrop-blur-md transition-transform duration-300 group-hover:scale-105">
             <p class="font-display text-4xl font-bold text-flame">15+</p>
             <p class="text-xs font-extrabold uppercase tracking-[0.18em] text-cream">Years of Excellence</p>
           </div>
         </div>
-        <div class="md:col-span-6">
+        <div class="md:col-span-6" data-reveal="slide-right">
           <p class="mb-3 text-sm font-extrabold uppercase tracking-[0.18em] text-gold">Our Heritage</p>
-          <h2 class="font-display text-5xl font-bold leading-tight text-cream md:text-6xl">A Local Favourite, One Wok at a Time.</h2>
+          <h2 class="font-display text-5xl font-bold leading-tight text-cream md:text-6xl">
+            <span class="editorial-mask"><span class="editorial-mask-inner">A Local Favourite,</span></span>
+            <span class="editorial-mask"><span class="editorial-mask-inner" style="transition-delay: 100ms;">One Wok at a Time.</span></span>
+          </h2>
           <div class="my-8 h-1 w-24 bg-gradient-to-r from-flame to-gold rounded-full"></div>
           <p class="text-lg leading-8 text-muted">New Manchow brings the bold comfort of Indo-Chinese cooking into a polished dining room: hot woks, balanced sauces, generous portions, and food that travels well for families, offices, and late-night cravings.</p>
           <div class="mt-10 grid grid-cols-3 gap-6 border-t border-white/10 pt-8">
-            <div class="border-r border-white/10 pr-2"><p class="font-display text-4xl font-bold text-gold">15+</p><p class="mt-2 text-xs font-bold uppercase tracking-[0.14em] text-muted">Years Serving</p></div>
-            <div class="border-r border-white/10 pr-2"><p class="font-display text-4xl font-bold text-gold">60+</p><p class="mt-2 text-xs font-bold uppercase tracking-[0.14em] text-muted">Menu Favourites</p></div>
-            <div><p class="font-display text-4xl font-bold text-gold">4.8</p><p class="mt-2 text-xs font-bold uppercase tracking-[0.14em] text-muted">Guest Rating</p></div>
+            <div class="border-r border-white/10 pr-2" data-reveal="fade-up"><p class="font-display text-4xl font-bold text-gold">15+</p><p class="mt-2 text-xs font-bold uppercase tracking-[0.14em] text-muted">Years Serving</p></div>
+            <div class="border-r border-white/10 pr-2" data-reveal="fade-up" class="stagger-1"><p class="font-display text-4xl font-bold text-gold">60+</p><p class="mt-2 text-xs font-bold uppercase tracking-[0.14em] text-muted">Menu Favourites</p></div>
+            <div data-reveal="fade-up" class="stagger-2"><p class="font-display text-4xl font-bold text-gold">4.8</p><p class="mt-2 text-xs font-bold uppercase tracking-[0.14em] text-muted">Guest Rating</p></div>
           </div>
         </div>
       </div>
@@ -369,24 +554,26 @@
       <div class="mb-14 flex flex-col justify-between gap-6 md:flex-row md:items-end">
         <div>
           <p class="mb-3 text-sm font-extrabold uppercase tracking-[0.18em] text-gold">Gallery</p>
-          <h2 class="font-display text-5xl font-bold text-cream md:text-6xl">From Wok to Table</h2>
+          <h2 class="font-display text-5xl font-bold text-cream md:text-6xl">
+            <span class="editorial-mask"><span class="editorial-mask-inner">From Wok to Table</span></span>
+          </h2>
         </div>
-        <button class="open-reservation rounded-full border border-white/30 px-8 py-4 text-sm font-extrabold uppercase tracking-[0.12em] text-white transition-all duration-300 hover:bg-white/10 hover:border-white/50">Reserve a Table</button>
+        <button class="open-reservation btn-micro rounded-full border border-white/30 px-8 py-4 text-sm font-extrabold uppercase tracking-[0.12em] text-white hover:bg-white/10 hover:border-white/50">Reserve a Table</button>
       </div>
       <div class="grid gap-6 md:grid-cols-3">
-        <div class="group relative overflow-hidden rounded-2xl border border-white/15 shadow-xl md:mt-12">
+        <div class="group relative overflow-hidden rounded-2xl border border-white/15 shadow-xl md:mt-12" data-reveal="scale-up">
           <div class="photo gallery-one min-h-[380px] w-full"></div>
           <div class="absolute inset-0 bg-gradient-to-t from-ink/90 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100 flex items-end p-6">
             <p class="font-display text-xl font-bold text-cream">Authentic Wok Creation</p>
           </div>
         </div>
-        <div class="group relative overflow-hidden rounded-2xl border border-white/15 shadow-xl">
+        <div class="group relative overflow-hidden rounded-2xl border border-white/15 shadow-xl stagger-1" data-reveal="scale-up">
           <div class="photo gallery-two min-h-[480px] w-full"></div>
           <div class="absolute inset-0 bg-gradient-to-t from-ink/90 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100 flex items-end p-6">
             <p class="font-display text-xl font-bold text-cream">Signature Indo-Chinese Feast</p>
           </div>
         </div>
-        <div class="group relative overflow-hidden rounded-2xl border border-white/15 shadow-xl md:mt-20">
+        <div class="group relative overflow-hidden rounded-2xl border border-white/15 shadow-xl md:mt-20 stagger-2" data-reveal="scale-up">
           <div class="photo gallery-three min-h-[380px] w-full"></div>
           <div class="absolute inset-0 bg-gradient-to-t from-ink/90 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100 flex items-end p-6">
             <p class="font-display text-xl font-bold text-cream">Dining Atmosphere</p>
@@ -395,29 +582,34 @@
       </div>
     </section>
 
+    <!-- Contact / Location Section -->
     <section id="contact" class="reveal border-t border-white/5 bg-smoke px-5 py-24 md:px-16">
       <div class="mx-auto grid max-w-site gap-12 md:grid-cols-2">
-        <div>
+        <div data-reveal="slide-left">
           <p class="mb-4 text-sm font-extrabold uppercase tracking-[0.18em] text-gold">Visit Us</p>
-          <h2 class="font-display text-5xl font-bold text-cream md:text-6xl">Dinner, Delivery, or a Celebration.</h2>
+          <h2 class="font-display text-5xl font-bold text-cream md:text-6xl">
+            <span class="editorial-mask"><span class="editorial-mask-inner">Dinner, Delivery,</span></span>
+            <span class="editorial-mask"><span class="editorial-mask-inner" style="transition-delay: 100ms;">or a Celebration.</span></span>
+          </h2>
           <div class="mt-10 space-y-6 text-muted">
             <p class="flex gap-4"><span class="material-symbols-outlined text-gold">location_on</span> 18 Food District Avenue, Downtown</p>
-            <p class="flex gap-4"><span class="material-symbols-outlined text-gold">call</span> <a href="tel:+15550198488" class="hover:text-cream">+1 555 019 8488</a></p>
-            <p class="flex gap-4"><span class="material-symbols-outlined text-gold">mail</span> <a href="mailto:hello@newmanchow.com" class="hover:text-cream">hello@newmanchow.com</a></p>
+            <p class="flex gap-4"><span class="material-symbols-outlined text-gold">call</span> <a href="tel:+15550198488" class="hover:text-cream transition-colors">+1 555 019 8488</a></p>
+            <p class="flex gap-4"><span class="material-symbols-outlined text-gold">mail</span> <a href="mailto:hello@newmanchow.com" class="hover:text-cream transition-colors">hello@newmanchow.com</a></p>
             <p class="flex gap-4"><span class="material-symbols-outlined text-gold">schedule</span> Daily, 11 AM-11 PM</p>
           </div>
         </div>
-        <form id="contactForm" class="rounded-lg border border-white/10 bg-char p-7">
+        <form id="contactForm" data-reveal="slide-right" class="rounded-2xl border border-white/10 bg-char p-8 shadow-xl">
           <label class="mb-2 block text-xs font-bold uppercase tracking-[0.14em] text-muted" for="name">Name</label>
-          <input id="name" class="mb-5 w-full rounded border-white/20 bg-ink px-4 py-3 text-cream focus:border-flame focus:ring-flame" required />
+          <input id="name" class="mb-5 w-full rounded-lg border-white/20 bg-ink px-4 py-3 text-cream focus:border-flame focus:ring-flame transition-colors" required />
           <label class="mb-2 block text-xs font-bold uppercase tracking-[0.14em] text-muted" for="email">Email</label>
-          <input id="email" type="email" class="mb-5 w-full rounded border-white/20 bg-ink px-4 py-3 text-cream focus:border-flame focus:ring-flame" required />
+          <input id="email" type="email" class="mb-5 w-full rounded-lg border-white/20 bg-ink px-4 py-3 text-cream focus:border-flame focus:ring-flame transition-colors" required />
           <label class="mb-2 block text-xs font-bold uppercase tracking-[0.14em] text-muted" for="message">Message</label>
-          <textarea id="message" rows="5" class="mb-5 w-full rounded border-white/20 bg-ink px-4 py-3 text-cream focus:border-flame focus:ring-flame" required></textarea>
-          <button class="w-full rounded bg-ember px-7 py-4 text-sm font-extrabold uppercase tracking-[0.12em] text-white transition hover:bg-flame">Send Message</button>
+          <textarea id="message" rows="5" class="mb-5 w-full rounded-lg border-white/20 bg-ink px-4 py-3 text-cream focus:border-flame focus:ring-flame transition-colors" required></textarea>
+          <button class="btn-micro w-full rounded-full bg-ember px-7 py-4 text-sm font-extrabold uppercase tracking-[0.12em] text-white hover:bg-flame shadow-lg">Send Message</button>
           <p id="contactStatus" class="mt-4 hidden text-sm font-bold text-gold" role="status"></p>
         </form>
       </div>
+    </section>
     </section>
   </main>
 
@@ -671,8 +863,11 @@
       }
     });
 
+    // Frontend form handlers (Connect Vercel Serverless Functions or API endpoints here)
     document.querySelector("#orderForm").addEventListener("submit", (event) => {
       event.preventDefault();
+      // BACKEND INTEGRATION POINT: Send order details (cart array, customer info) to server endpoint:
+      // fetch('/api/order', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ cart, name, phone, orderType, notes }) })
       const status = document.querySelector("#orderStatus");
       status.textContent = "Order received. We will call you shortly to confirm.";
       status.classList.remove("hidden");
@@ -682,6 +877,8 @@
 
     document.querySelector("#reservationForm").addEventListener("submit", (event) => {
       event.preventDefault();
+      // BACKEND INTEGRATION POINT: Send reservation request to server endpoint:
+      // fetch('/api/reservation', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(formData) })
       const status = document.querySelector("#reservationStatus");
       status.textContent = "Reservation request sent. We will confirm availability soon.";
       status.classList.remove("hidden");
@@ -689,19 +886,99 @@
 
     document.querySelector("#contactForm").addEventListener("submit", (event) => {
       event.preventDefault();
+      // BACKEND INTEGRATION POINT: Send message to server/email API endpoint:
+      // fetch('/api/contact', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(formData) })
       const status = document.querySelector("#contactStatus");
       status.textContent = "Thanks. Your message has been queued for the New Manchow team.";
       status.classList.remove("hidden");
       event.currentTarget.reset();
     });
 
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) entry.target.classList.add("active");
-      });
-    }, { threshold: 0.1 });
+    /* --- MOTION & INTERSECTION OBSERVER SYSTEM --- */
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-    document.querySelectorAll(".reveal").forEach((element) => observer.observe(element));
+    // Single-play reveal observer with 0.15 viewport threshold for clear early entrance
+    const revealObserver = new IntersectionObserver((entries, observer) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("active");
+          // Play once: unobserve element after reveal
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+
+    // Observe reveal elements & editorial masks
+    document.querySelectorAll(".reveal, [data-reveal], .editorial-mask-inner, .hero-photo-reveal, .hero-badge-reveal").forEach((elem) => {
+      revealObserver.observe(elem);
+    });
+
+    // Page Load Hero Entrance
+    window.addEventListener("DOMContentLoaded", () => {
+      setTimeout(() => {
+        const siteHeader = document.querySelector("#siteHeader");
+        if (siteHeader) siteHeader.classList.add("loaded");
+        const heroPhoto = document.querySelector(".hero-photo-reveal");
+        if (heroPhoto) heroPhoto.classList.add("active");
+        const heroBadge = document.querySelector(".hero-badge-reveal");
+        if (heroBadge) heroBadge.classList.add("active");
+      }, 80);
+    });
+
+    // Header Scroll & Nav Active State Tracker
+    const siteHeader = document.querySelector("#siteHeader");
+    const sections = document.querySelectorAll("section[id]");
+    const navLinks = document.querySelectorAll(".nav-link-custom");
+
+    window.addEventListener("scroll", () => {
+      const scrollY = window.scrollY;
+
+      // Toggle Header Glassmorphism background
+      if (siteHeader) {
+        if (scrollY > 60) {
+          siteHeader.classList.add("header-scrolled");
+        } else {
+          siteHeader.classList.remove("header-scrolled");
+        }
+      }
+
+      // Track active section link
+      sections.forEach((current) => {
+        const sectionHeight = current.offsetHeight;
+        const sectionTop = current.offsetTop - 120;
+        const sectionId = current.getAttribute("id");
+
+        if (scrollY > sectionTop && scrollY <= sectionTop + sectionHeight) {
+          navLinks.forEach((link) => {
+            link.classList.remove("active", "text-gold");
+            if (link.getAttribute("href") === `#${sectionId}`) {
+              link.classList.add("active", "text-gold");
+            }
+          });
+        }
+      });
+
+      // Selective Subtle Parallax (Hero & Story photos)
+      if (!prefersReducedMotion && window.innerWidth >= 768) {
+        const heroPhoto = document.querySelector("#heroParallaxPhoto");
+        const storyPhoto = document.querySelector("#storyParallaxPhoto");
+
+        if (heroPhoto && scrollY < 800) {
+          const yPos = scrollY * 0.05; // max 25px subtle displacement
+          heroPhoto.style.transform = `translateY(${yPos}px)`;
+        }
+
+        if (storyPhoto) {
+          const storyTop = storyPhoto.getBoundingClientRect().top;
+          const windowHeight = window.innerHeight;
+          if (storyTop < windowHeight && storyTop > -600) {
+            const yPos = (windowHeight - storyTop) * 0.03;
+            storyPhoto.style.transform = `translateY(${yPos}px)`;
+          }
+        }
+      }
+    });
+
     renderMenu("starters");
     renderCart();
   </script>

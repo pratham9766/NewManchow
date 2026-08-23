@@ -3,4 +3,6 @@
 .vercel
 node_modules
 screen.png
+DESIGN.md
+README.md
 *.log
